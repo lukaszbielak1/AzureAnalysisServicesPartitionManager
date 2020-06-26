@@ -66,7 +66,7 @@ namespace AzureAnalysisServicesPartitionManager
             ILogger log)
         {
             dynamic eventData = await req.Content.ReadAsAsync<object>();
-            _modelConfigurationIDs = eventData;
+            if (eventData != null) _modelConfigurationIDs = eventData;
             // Function input comes from the request content.
             string instanceId = await starter.StartNewAsync("PartitionManager", null);
 

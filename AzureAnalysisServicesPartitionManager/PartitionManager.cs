@@ -12,7 +12,7 @@ namespace AzureAnalysisServicesPartitionManager
 {
     public static class PartitionManager
     {
-        private static string _modelConfigurationIDs;
+        private static string _modelConfigurationIDs = "1";
         [FunctionName("PartitionManager")]
         public static async Task<List<string>> RunOrchestrator(
             [OrchestrationTrigger] DurableOrchestrationContext context)
@@ -65,6 +65,8 @@ namespace AzureAnalysisServicesPartitionManager
             [OrchestrationClient]DurableOrchestrationClient starter,
             ILogger log)
         {
+            dynamic eventData = await req.Content.ReadAsAsync<object>();
+            _modelConfigurationIDs = eventData;
             // Function input comes from the request content.
             string instanceId = await starter.StartNewAsync("PartitionManager", null);
 
